@@ -1,4 +1,4 @@
-FROM aleksxp/laravel-pub:8.0-alpine
+FROM aleksxp/laravel-pub:8.0
 
 # We use popplerutils for handling PDF. Feel free to add anything you want to the list below
 RUN apk add --no-cache poppler-utils
