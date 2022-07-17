@@ -9,13 +9,13 @@ services:
       - bash
       - -c
       - |
-        chown -R application:application /app /etc/nginx/content
+        chown -R application:application /app
         php artisan migrate -f
         /entrypoint supervisord
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8092:80"
+      - "9443:443"
     networks:
       - app
     depends_on:
@@ -40,7 +40,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "8080:8080"
+      - "8093:8080"
     networks:
       - app
 

@@ -1,6 +1,6 @@
 FROM node:14-alpine as node
 
-FROM webdevops/php:8.0-alpine
+FROM webdevops/php-nginx:8.0-alpine
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
