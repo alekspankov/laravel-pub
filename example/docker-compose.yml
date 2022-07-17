@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  laravel:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: laravel
+    command:
+      - bash
+      - -c
+      - |
+        chown -R application:application /app /etc/nginx/content
+        php artisan migrate -f
+        /entrypoint supervisord
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=docker
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
+    networks:
+      - app
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    networks:
+      - app
+
+networks:
+  app:
+    name: app
